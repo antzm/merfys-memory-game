@@ -10,20 +10,21 @@
  *   - add each card's HTML to the page
  */
 
+
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-}
+// function shuffle(array) {
+//    var currentIndex = array.length, temporaryValue, randomIndex;
+//
+//   while (currentIndex !== 0) {
+//       randomIndex = Math.floor(Math.random() * currentIndex);
+//      currentIndex -= 1;
+//      temporaryValue = array[currentIndex];
+//       array[currentIndex] = array[randomIndex];
+//       array[randomIndex] = temporaryValue;
+//    }
+//
+//    return array;
+// }
 
 
 /*
@@ -36,3 +37,41 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+
+placeCards();
+
+function placeCards() {
+	const symbolsList = createSymbolsList();
+	const symbolsArray = listToArray(symbolsList);
+	const randomSymbols = randomizeArray(symbolsArray);
+	for (let i = 0; i < symbolsList.length; i++) {
+		symbolsList[i].outerHTML = randomSymbols[i].outerHTML;
+	}
+}
+
+function createSymbolsList() {
+	const cardSymbols = document.querySelectorAll('.deck i');
+	return cardSymbols;
+}
+
+function listToArray(inList) {
+	const outArray = Array.from(inList);
+	return outArray;
+}
+
+function randomizeArray(randArray) {
+	let firstElement = 0;
+	for (let i = 0; i < randArray.length; i++) {
+		firstElement = randArray[0];
+		randArray.splice(0,1);
+		randArray.splice(randomNum(randArray.length), 0, firstElement);
+	}
+	return randArray;
+}
+
+function randomNum(max) {
+	let randNum = Math.floor(Math.random()*(max+1));
+	return randNum;
+}
+
