@@ -16,11 +16,11 @@
 //    var currentIndex = array.length, temporaryValue, randomIndex;
 //
 //   while (currentIndex !== 0) {
-//       randomIndex = Math.floor(Math.random() * currentIndex);
+//      randomIndex = Math.floor(Math.random() * currentIndex);
 //      currentIndex -= 1;
 //      temporaryValue = array[currentIndex];
-//       array[currentIndex] = array[randomIndex];
-//       array[randomIndex] = temporaryValue;
+//      array[currentIndex] = array[randomIndex];
+//      array[randomIndex] = temporaryValue;
 //    }
 //
 //    return array;
@@ -38,8 +38,13 @@
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+// Merfys Memory Game
 
 placeCards();
+
+cardListeners();
+
+let totalMoves=0;
 
 function placeCards() {
 	const symbolsList = createSymbolsList();
@@ -75,3 +80,20 @@ function randomNum(max) {
 	return randNum;
 }
 
+function cardListeners() {
+	const mainList = document.querySelector('.deck');
+	mainList.addEventListener('click', cardAction);
+}
+
+function cardAction(evt) {
+	if (evt.target.nodeName === 'LI') {
+		evt.target.classList.add('open', 'show');
+        totalMoves += 1;
+        keepScore(totalMoves);
+   	};
+}
+
+function keepScore(numMovs) {
+	printMoves = document.querySelector('.moves');
+    printMoves.innerHTML = numMovs;
+}
