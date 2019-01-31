@@ -73,7 +73,7 @@ function randomizeArray(randArray) {
 		firstElement = randArray[0];
 		randArray.splice(0,1);
 		randArray.splice(randomNum(randArray.length), 0, firstElement);
-	}
+	};
 	return randArray;
 }
 
@@ -98,6 +98,12 @@ function cardAction(evt) {
 function keepScore(numMovs) {
 	printMoves = document.querySelector('.moves');
     printMoves.innerHTML = numMovs;
+    if (numMovs == 5) {
+    	removeStar();
+    };
+    if (numMovs == 10) {
+    	removeStar();
+    };    
 }
 
 function restartGameOption() {
@@ -109,8 +115,9 @@ function resetGame() {
 	resetCards();
 	placeCards();
 	cardListeners();
-	let totalMoves=0;
+	totalMoves=0;
 	keepScore(totalMoves);
+	initialStars();
 }
 
 function resetCards() {
@@ -119,4 +126,30 @@ function resetCards() {
 		cardSymbols[i].parentNode.className = 'card';
 	};
 }
+
+function removeStar() {
+	const starSymbol = document.querySelector('.stars li');
+	starSymbol.remove();
+}
+
+function addStar() {
+	const starSection = document.querySelector('.stars li');
+	const starContent = starSection.innerHTML;
+	const newLi = document.createElement('li');
+	newLi.innerHTML = starContent;
+	starSection.parentNode.appendChild(newLi);
+}
+
+function initialStars() {
+	const remainingStars = document.querySelectorAll('.stars li');
+	const numStars = remainingStars.length;
+	if (numStars == 2) {
+		addStar();
+	};
+	if (numStars == 1) {
+		addStar(); 
+		addStar();
+	};
+}
+
 
