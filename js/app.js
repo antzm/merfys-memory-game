@@ -44,6 +44,8 @@ placeCards();
 
 cardListeners();
 
+restartGameOption();
+
 let totalMoves=0;
 
 function placeCards() {
@@ -52,7 +54,7 @@ function placeCards() {
 	const randomSymbols = randomizeArray(symbolsArray);
 	for (let i = 0; i < symbolsList.length; i++) {
 		symbolsList[i].outerHTML = randomSymbols[i].outerHTML;
-	}
+	};
 }
 
 function createSymbolsList() {
@@ -97,3 +99,24 @@ function keepScore(numMovs) {
 	printMoves = document.querySelector('.moves');
     printMoves.innerHTML = numMovs;
 }
+
+function restartGameOption() {
+	const restart = document.querySelector('.restart i');
+	restart.addEventListener('click', resetGame);
+}
+
+function resetGame() {
+	resetCards();
+	placeCards();
+	cardListeners();
+	let totalMoves=0;
+	keepScore(totalMoves);
+}
+
+function resetCards() {
+	const cardSymbols = document.querySelectorAll('.deck i');
+	for (let i = 0; i < cardSymbols.length; i++) {
+		cardSymbols[i].parentNode.className = 'card';
+	};
+}
+
