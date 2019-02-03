@@ -40,6 +40,7 @@
 
 // Merfys Memory Game
 
+
 placeCards();
 
 cardListeners();
@@ -49,6 +50,11 @@ restartGameOption();
 let totalMoves = 0;
 
 let cardPair = [];
+
+let totalMatchedCards = 0;
+
+merfysSolution();
+
 
 function placeCards() {
 	const symbolsList = createSymbolsList();
@@ -124,6 +130,10 @@ function cardsMatch() {
 	for (i = 0; i < 2; i++) {
 		matchedCards[i].classList.add('match');
 	};
+	totalMatchedCards += 2
+	if (totalMatchedCards == 16) { 
+		setTimeout(gameComplete, 500);
+	};		
 	cardPair = [];
 	cardListeners();
 }
@@ -141,10 +151,10 @@ function keepScore() {
 	totalMoves += 1;
 	printMoves = document.querySelector('.moves');
     printMoves.innerHTML = totalMoves;
-    if (totalMoves == 32) {
+    if (totalMoves == 36) {
     	removeStar();
     };
-    if (totalMoves == 48) {
+    if (totalMoves == 63) {
     	removeStar();
     };    
 }
@@ -184,8 +194,10 @@ function resetGame() {
 	placeCards();
 	cardListeners();
 	totalMoves = -1;
+	totalMatchedCards = 0;
 	keepScore();
 	initialStars();
+	merfysSolution();
 }
 
 function resetCards() {
@@ -193,5 +205,47 @@ function resetCards() {
 	for (let i = 0; i < cardSymbols.length; i++) {
 		cardSymbols[i].parentNode.className = 'card';
 	};
+}
+
+function gameComplete() {
+	let stars = 'star';
+	const remainingStars = document.querySelectorAll('.stars li');
+	const numStars = remainingStars.length;
+	if (numStars > 1) {
+		stars = 'stars';
+	};
+	let confirmMessage = `
+Congratulations!!!
+
+You've made it, with just ${totalMoves} moves!!!
+
+And a total of ${numStars} ${stars}!!!
+
+Would you like to play another game?`
+	if (confirm(confirmMessage)) {
+		resetGame()
+    };
+}
+
+function merfysSolution() {
+	const codes = [];
+	const pureCodes = [];
+	const symbols = [];
+	const cardSymbols = document.querySelectorAll('.deck i');
+	for (let i = 0; i < cardSymbols.length; i++) {
+			codes[i] = cardSymbols[i].outerHTML;
+	};
+	for (let i = 0; i < codes.length; i++) {
+			pureCodes[i] = codes[i].trim();
+	};
+	for (let i = 0; i < pureCodes.length; i++) {
+			symbols[i] = pureCodes[i].slice(16, -6);
+	};
+	let secretSymbols = `Merfys Memory Game solution:
+A1.${symbols[0]}, A2.${symbols[1]}, A3.${symbols[2]}, A4.${symbols[3]},
+B1.${symbols[4]}, B2.${symbols[5]}, B3.${symbols[6]}, B4.${symbols[7]},
+C1.${symbols[8]}, C2.${symbols[9]}, C3.${symbols[10]}, C4.${symbols[11]},
+D1.${symbols[12]}, D2.${symbols[13]}, D3.${symbols[14]}, D4.${symbols[15]}`
+console.log(secretSymbols);
 }
 
