@@ -46,7 +46,9 @@ cardListeners();
 
 restartGameOption();
 
-let totalMoves=0;
+let totalMoves = 0;
+
+let cardPair = [];
 
 function placeCards() {
 	const symbolsList = createSymbolsList();
@@ -87,44 +89,64 @@ function cardListeners() {
 	mainList.addEventListener('click', cardAction);
 }
 
+function disableListeners() {
+	const mainList = document.querySelector('.deck');
+	mainList.removeEventListener('click', cardAction);
+}
+
 function cardAction(evt) {
-	if (evt.target.nodeName === 'LI') {
+	if (evt.target.nodeName === 'LI' && evt.target.className === 'card') {
 		evt.target.classList.add('open', 'show');
-        totalMoves += 1;
-        keepScore(totalMoves);
+		keepScore();
+		cardSymbol = evt.target.innerHTML;
+		pureCardSymbol = cardSymbol.trim();
+		cardPair.push(pureCardSymbol);
+		if (cardPair.length == 2) {
+			compareCards();
+		};
    	};
 }
 
-function keepScore(numMovs) {
+function compareCards() {
+	disableListeners();
+	if (cardPair[0] === cardPair[1]) {
+		setTimeout(cardsMatch, 250);
+	} else {
+		setTimeout(cardsDontMatch, 1250);
+	};
+}
+
+function cardsMatch() {
+	const matchedCards = document.querySelectorAll('.open');
+	for (i = 0; i < 2; i++) {
+		matchedCards[i].classList.remove('open', 'show');
+	};
+	for (i = 0; i < 2; i++) {
+		matchedCards[i].classList.add('match');
+	};
+	cardPair = [];
+	cardListeners();
+}
+
+function cardsDontMatch() {
+	const unMatchedCards = document.querySelectorAll('.open');
+	for (i = 0; i < 2; i++) {
+		unMatchedCards[i].classList.remove('open', 'show');
+	};
+	cardPair = [];
+	cardListeners();
+}
+
+function keepScore() {
+	totalMoves += 1;
 	printMoves = document.querySelector('.moves');
-    printMoves.innerHTML = numMovs;
-    if (numMovs == 5) {
+    printMoves.innerHTML = totalMoves;
+    if (totalMoves == 32) {
     	removeStar();
     };
-    if (numMovs == 10) {
+    if (totalMoves == 48) {
     	removeStar();
     };    
-}
-
-function restartGameOption() {
-	const restart = document.querySelector('.restart i');
-	restart.addEventListener('click', resetGame);
-}
-
-function resetGame() {
-	resetCards();
-	placeCards();
-	cardListeners();
-	totalMoves=0;
-	keepScore(totalMoves);
-	initialStars();
-}
-
-function resetCards() {
-	const cardSymbols = document.querySelectorAll('.deck i');
-	for (let i = 0; i < cardSymbols.length; i++) {
-		cardSymbols[i].parentNode.className = 'card';
-	};
 }
 
 function removeStar() {
@@ -152,4 +174,24 @@ function initialStars() {
 	};
 }
 
+function restartGameOption() {
+	const restart = document.querySelector('.restart i');
+	restart.addEventListener('click', resetGame);
+}
+
+function resetGame() {
+	resetCards();
+	placeCards();
+	cardListeners();
+	totalMoves = -1;
+	keepScore();
+	initialStars();
+}
+
+function resetCards() {
+	const cardSymbols = document.querySelectorAll('.deck i');
+	for (let i = 0; i < cardSymbols.length; i++) {
+		cardSymbols[i].parentNode.className = 'card';
+	};
+}
 
