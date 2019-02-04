@@ -9,7 +9,8 @@
  *   - add each card's HTML to the page
  */
 
-/* Shuffle function from http://stackoverflow.com/a/2450976
+/*
+ * Shuffle function from http://stackoverflow.com/a/2450976
  * function shuffle(array) {
  *    var currentIndex = array.length, temporaryValue, randomIndex;
  *
@@ -23,7 +24,7 @@
  *
  *    return array;
  * }
-*/
+ */
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -51,22 +52,12 @@ gameTimer()
 merfysSolution();
 
 function placeCards() {
-	const symbolsList = createSymbolsList();
-	const symbolsArray = listToArray(symbolsList);
-	const randomSymbols = randomizeArray(symbolsArray);
-	for (let i = 0; i < symbolsList.length; i++) {
-		symbolsList[i].outerHTML = randomSymbols[i].outerHTML;
+	const cardSymbolsList = document.querySelectorAll('.deck i');
+	const cardSymbolsArray = Array.from(cardSymbolsList);
+	const randomSymbolsArray = randomizeArray(cardSymbolsArray);
+	for (let i = 0; i < cardSymbolsList.length; i++) {
+		cardSymbolsList[i].outerHTML = randomSymbolsArray[i].outerHTML;
 	};
-}
-
-function createSymbolsList() {
-	const cardSymbols = document.querySelectorAll('.deck i');
-	return cardSymbols;
-}
-
-function listToArray(inList) {
-	const outArray = Array.from(inList);
-	return outArray;
 }
 
 function randomizeArray(randArray) {
@@ -145,10 +136,10 @@ function keepScore() {
 	totalMoves += 1;
 	printMoves = document.querySelector('.moves');
 	printMoves.innerHTML = totalMoves;
-	if (totalMoves == 36) {
+	if (totalMoves == 26) {
 		removeStar();
 	};
-	if (totalMoves == 63) {
+	if (totalMoves == 36) {
 		removeStar();
 	};
 }
@@ -206,12 +197,14 @@ function restartGameOption() {
 }
 
 function resetGame() {
+	disableListeners();
 	clearInterval(runTimer);
 	seconds = 0;
 	minutes = 0;
 	totalMoves = -1;
 	cardPair = [];
 	totalMatchedCards = 0;
+	displayTimer()
 	resetCards();
 	placeCards();
 	cardListeners();
@@ -229,21 +222,30 @@ function resetCards() {
 }
 
 function gameComplete() {
-	clearInterval(runTimer);
-	let stars = 'star';
+	disableListeners();
 	const remainingStars = document.querySelectorAll('.stars li');
 	const numStars = remainingStars.length;
-	if (numStars > 1) {
-		stars = 'stars';
+	let starsText = 'stars';
+	if (numStars == 1) {
+		starsText = 'star';
+	};
+	let minutesText = 'minutes'
+	if (minutes == 1) {
+		minutesText = 'minute';
+	};
+	let secondsText = 'seconds'
+	if ((seconds-minutes*60) == 1) {
+		secondsText = 'second';
 	};
 	let confirmMessage = `
 Congratulations!
 
 You've made it, with just ${totalMoves} moves,
-in ${minutes} minutes and ${seconds-minutes*60} seconds,
-and a total score of ${numStars} ${stars}!
+in ${minutes} ${minutesText} and ${seconds-minutes*60} ${secondsText},
+and a total score of ${numStars} ${starsText}!
 
 Would you like to play another game?`;
+	clearInterval(runTimer);
 	if (confirm(confirmMessage)) {
 		resetGame();
 	};
@@ -270,3 +272,34 @@ C1.${symbols[8]}, C2.${symbols[9]}, C3.${symbols[10]}, C4.${symbols[11]},
 D1.${symbols[12]}, D2.${symbols[13]}, D3.${symbols[14]}, D4.${symbols[15]}`;
 console.log(secretSymbols);
 }
+
+/*
+Alternative function to create the card deck 
+based on the exact instructions in this file
+and using the provided shuffle function:
+*/
+
+/*
+function createDeckFromArray() {
+
+	const cardList = document.querySelectorAll('.card');
+	const cardArray = Array.from(cardList);
+	const randArray = shuffle(cardArray);
+
+	for (i=0; i < cardList.length; i++) {  
+		const oldCard = cardList[i];
+		oldCard.remove(); 
+	};
+
+	const deckFragment = document.createDocumentFragment();
+	for (i=0; i < randArray.length; i++) {
+		const newCard = document.createElement('li');
+		newCard.innerHTML = randArray[i].innerHTML; 
+		newCard.className = randArray[i].className;
+		deckFragment.appendChild(newCard);
+	};
+
+	const newDeckList = document.querySelector('.deck');
+	newDeckList.appendChild(deckFragment);
+}
+*/
