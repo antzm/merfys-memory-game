@@ -2,7 +2,6 @@
  * Create a list that holds all of your cards
  */
 
-
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -10,22 +9,21 @@
  *   - add each card's HTML to the page
  */
 
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-// function shuffle(array) {
-//    var currentIndex = array.length, temporaryValue, randomIndex;
-//
-//   while (currentIndex !== 0) {
-//      randomIndex = Math.floor(Math.random() * currentIndex);
-//      currentIndex -= 1;
-//      temporaryValue = array[currentIndex];
-//      array[currentIndex] = array[randomIndex];
-//      array[randomIndex] = temporaryValue;
-//    }
-//
-//    return array;
-// }
-
+/* Shuffle function from http://stackoverflow.com/a/2450976
+ * function shuffle(array) {
+ *    var currentIndex = array.length, temporaryValue, randomIndex;
+ *
+ *   while (currentIndex !== 0) {
+ *      randomIndex = Math.floor(Math.random() * currentIndex);
+ *      currentIndex -= 1;
+ *      temporaryValue = array[currentIndex];
+ *      array[currentIndex] = array[randomIndex];
+ *      array[randomIndex] = temporaryValue;
+ *    }
+ *
+ *    return array;
+ * }
+*/
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -40,21 +38,17 @@
 
 // Merfys Memory Game
 
-
-placeCards();
-
-cardListeners();
-
-restartGameOption();
-
+let seconds = 0;
+let minutes = 0;
 let totalMoves = 0;
-
 let cardPair = [];
-
 let totalMatchedCards = 0;
 
+placeCards();
+cardListeners();
+restartGameOption();
+gameTimer()
 merfysSolution();
-
 
 function placeCards() {
 	const symbolsList = createSymbolsList();
@@ -110,7 +104,7 @@ function cardAction(evt) {
 		if (cardPair.length == 2) {
 			compareCards();
 		};
-   	};
+	};
 }
 
 function compareCards() {
@@ -118,7 +112,7 @@ function compareCards() {
 	if (cardPair[0] === cardPair[1]) {
 		setTimeout(cardsMatch, 250);
 	} else {
-		setTimeout(cardsDontMatch, 1250);
+		setTimeout(cardsDontMatch, 850);
 	};
 }
 
@@ -130,8 +124,8 @@ function cardsMatch() {
 	for (i = 0; i < 2; i++) {
 		matchedCards[i].classList.add('match');
 	};
-	totalMatchedCards += 2
-	if (totalMatchedCards == 16) { 
+	totalMatchedCards += 2;
+	if (totalMatchedCards == 16) {
 		setTimeout(gameComplete, 500);
 	};		
 	cardPair = [];
@@ -150,13 +144,13 @@ function cardsDontMatch() {
 function keepScore() {
 	totalMoves += 1;
 	printMoves = document.querySelector('.moves');
-    printMoves.innerHTML = totalMoves;
-    if (totalMoves == 36) {
-    	removeStar();
-    };
-    if (totalMoves == 63) {
-    	removeStar();
-    };    
+	printMoves.innerHTML = totalMoves;
+	if (totalMoves == 36) {
+		removeStar();
+	};
+	if (totalMoves == 63) {
+		removeStar();
+	};
 }
 
 function removeStar() {
@@ -179,9 +173,31 @@ function initialStars() {
 		addStar();
 	};
 	if (numStars == 1) {
-		addStar(); 
+		addStar();
 		addStar();
 	};
+}
+
+function gameTimer() {
+	runTimer = setInterval(countSeconds, 1000);
+}
+
+function countSeconds() {
+	seconds += 1;
+	if (seconds % 60 == 0) {
+		minutes += 1;
+	};
+	displayTimer();
+}
+
+function displayTimer() {
+	let displaySeconds = (seconds-minutes*60);
+	if (displaySeconds < 10) {
+		displaySeconds = "0" + displaySeconds;
+	};
+	let timeFormat = `${(minutes)}:${displaySeconds}`;
+	const timerDisplay = document.querySelector('.timer');
+	timerDisplay.textContent = timeFormat;
 }
 
 function restartGameOption() {
@@ -190,13 +206,18 @@ function restartGameOption() {
 }
 
 function resetGame() {
+	clearInterval(runTimer);
+	seconds = 0;
+	minutes = 0;
+	totalMoves = -1;
+	cardPair = [];
+	totalMatchedCards = 0;
 	resetCards();
 	placeCards();
 	cardListeners();
-	totalMoves = -1;
-	totalMatchedCards = 0;
 	keepScore();
 	initialStars();
+	gameTimer();
 	merfysSolution();
 }
 
@@ -208,6 +229,7 @@ function resetCards() {
 }
 
 function gameComplete() {
+	clearInterval(runTimer);
 	let stars = 'star';
 	const remainingStars = document.querySelectorAll('.stars li');
 	const numStars = remainingStars.length;
@@ -215,16 +237,16 @@ function gameComplete() {
 		stars = 'stars';
 	};
 	let confirmMessage = `
-Congratulations!!!
+Congratulations!
 
-You've made it, with just ${totalMoves} moves!!!
+You've made it, with just ${totalMoves} moves,
+in ${minutes} minutes and ${seconds-minutes*60} seconds,
+and a total score of ${numStars} ${stars}!
 
-And a total of ${numStars} ${stars}!!!
-
-Would you like to play another game?`
+Would you like to play another game?`;
 	if (confirm(confirmMessage)) {
-		resetGame()
-    };
+		resetGame();
+	};
 }
 
 function merfysSolution() {
@@ -245,7 +267,6 @@ function merfysSolution() {
 A1.${symbols[0]}, A2.${symbols[1]}, A3.${symbols[2]}, A4.${symbols[3]},
 B1.${symbols[4]}, B2.${symbols[5]}, B3.${symbols[6]}, B4.${symbols[7]},
 C1.${symbols[8]}, C2.${symbols[9]}, C3.${symbols[10]}, C4.${symbols[11]},
-D1.${symbols[12]}, D2.${symbols[13]}, D3.${symbols[14]}, D4.${symbols[15]}`
+D1.${symbols[12]}, D2.${symbols[13]}, D3.${symbols[14]}, D4.${symbols[15]}`;
 console.log(secretSymbols);
 }
-
