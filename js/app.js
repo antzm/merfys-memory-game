@@ -1,3 +1,5 @@
+/* Merfys Memory Game */
+
 /*
  * Create a list that holds all of your cards
  */
@@ -37,7 +39,71 @@
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
-// Merfys Memory Game
+
+/*
+The logic behind the code:
+**************************
+
+Probably, the most interesting part of this code is the "placeCards" function which uses
+a somehow unusual way to place the cards on the board.
+
+It uses the "document.querySelectorAll" to create a node list and then, the nodeList is converted
+to an array using "Array.from" so that it can be ranodmized.
+After the array is randomized, a for...of loop is used to assign the "outerHTML" property
+of each item of the array to the nodes of the nodeList.
+
+In this way, the nodes remain in the same place inside the nodeList, but the "outerHTML"
+is randomized between the nodes.
+The result is that using this approach, the page updates automatically with the randomized cards.
+
+(Basically, the idea was to find a way to randomize the nodeList itself, and after some trials,
+it was a nice surprise that the page updated automatically with the random cards).
+
+As this approach may not be compatible in older browsers, an alternative function (createDeckFromArray) has
+been written, which uses the classic approach to create the cards on the board, 
+and it appears at the very end of this code.
+
+Another point to mention, is that due to a lack of understanig of the code logic in the provided
+"shuffle" function, a new function was created to randomize the cards, following a very simple logic.
+
+The "randomizeArray" function uses "splice" to take out the first item of an array and then,
+the "randomNum" function provides a random number and the item is put back in that random place in the array.
+The process repeats for all the items of the array, while the random numbers ensure that the item can 
+be put back in every place (from first to last) inside the array.
+
+After the board is created, the function "cardListeners" adds a listener to the parent element (.deck),
+instead of using one listener for every card, as this approach is more efficient. At the same time,
+it is easier to disable the listener using the function "disableListeners".
+
+The listening function is called "cardAction" and using "event.target" avoids to monitor clicks
+throughout the board. Using "event.target" is easy to monitor clicks only on the closed cards 
+and not the clicks on the board itself or on the already matched cards. 
+
+To accomplish this, the listener function checks if the click was made on a "li" element (card)
+which has ONLY the class "card" in it (i.e. is a close card) while all other clicks are ignored.
+
+As soon as a card is clicked, the function "keepScore" is called, so to increase the moves by 1, 
+and the card (its trimmed innerHTML property) is stored inside the array "cardPair".
+When a second card is clicked, it is also stored in the same array and the function "compareCards"
+is called to compare the two cards. If they match, (innerHTML1 = innerHTML2), then the cards stay open,
+otherwise they close again by changing their classes. During this process, the "disableListeners" function 
+is called, so to disable the listeners, otherwise a third card could be opened.
+
+During the game, a "gameTimer" function tracks the time by using "setInterval(countSeconds, 1000)"
+so that a function is called every second, and it adds the total seconds. As soon as a game ends,
+the "clearInterval" stops the timer.
+
+When the game is reset, the function "resetGame" resets the game to its initial state, while
+the function "resetCards" closes the open cards, before they are randomized again.
+
+When a game is completed, the function "gameComplete" is called and by using a template literal
+it gives a message to the player about the time and the score.
+
+And last but not least, the most interesting function of the game is called
+"merfysSolution" and it logs in the console the solution of every game...
+
+And now... let the game begin...
+*/
 
 let seconds = 0;
 let minutes = 0;
@@ -272,6 +338,7 @@ C1.${symbols[8]}, C2.${symbols[9]}, C3.${symbols[10]}, C4.${symbols[11]},
 D1.${symbols[12]}, D2.${symbols[13]}, D3.${symbols[14]}, D4.${symbols[15]}`;
 console.log(secretSymbols);
 }
+
 
 /*
 Alternative function to create the card deck 

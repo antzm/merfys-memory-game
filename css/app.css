@@ -1,3 +1,33 @@
+/*Merfys Memory Game*/
+
+/*
+The logic behind the code:
+**************************
+This game uses a square board with square cards. So, the responsive design should
+take this into consideration and recreate this board into different viewports.
+This was accomplished by resizing the square cards and the square board to fit
+the different viewports. In smaller viewports though (lower than 360px) the square
+board would appear very small and for this reason, the arrangement of the cards
+is not a square but rather it depends on the view-port and the way 
+that flexbox would arrange the cards.
+Even in this case though, an attempt was made to arrange the cards into a rectangle,
+so to avoid the appearance of lonely cards at the bottom of the board.
+(this was done by using "flex-grow: 1" which changes the size of the lonely cards
+at the bottom of the board and they appear larger to fit the available free space).
+
+Other than that, the code is quite simple, while the main difficulty was to calculate
+the proper sizes for the board and the cards, so to fit the different viewports.
+
+Media queries were used for the following viewports:
+  0px - 360px => (max-width: 360px) - This viewport appears only on Firefox
+360px - 480px => (min-width: 360px)
+480px - 640px => (min-width: 480px)
+640px - 800px => (min-width: 640px
+800px and up  => (min-width: 800px)
+
+(Note: the commented code lines, are part of the starter code).
+*/
+
 html {
     box-sizing: border-box;
 }
