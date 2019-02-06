@@ -1,20 +1,20 @@
-# Memory Game Project
+# Merfys Memory Game
 
-## Table of Contents
+This is a memory game to test how good you are at remembering things.
 
-* [Instructions](#instructions)
-* [Contributing](#contributing)
+It consists of 16 cards (8 pairs) and your purpose is to match all the cards, in the least amount of time, with the least amount of moves!
 
-## Instructions
+![Screenshot of a game called, Merfys Memory Game, with a board consisting of 16 memory cards](img/merfys-memory-game.png)
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+If you play this game once, and you successfully manage to match all the cards, then you are granted permission to have a look "behind the screen" and see how the code of this game looks like.
 
-To get started, open `js/app.js` and start building out the app's functionality
+And if you would like to use this code, or just a part of it (for something you would like to create), then please pay attention to the terms of the **"Merfys Pet License"** mentioned below:
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+![A brown and white large breed dog, named Merfys, sitting still and looking at the distance](img/DSC_6274.JPG)
+_Merfys thinking about the terms of the "Merfys Pet License"..._
 
-## Contributing
+Terms of license: This code can be freely used under the **"Merfys Pet License"**. As you can see, Merfys is a dog, so the main term of the license is that you are respectful towards dogs, cats and any other pet, either if you have one or not.
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+Sounds strange, but if you love pets and respect them, chances are that you would also respect other people, and in this case, people who write code, and so you will use their code, with respect towards everyone of them, with respect towards you, and also with respect towards the pets you care about.
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+_Let a pet in your life be proud of who you are!_
