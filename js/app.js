@@ -115,7 +115,7 @@ placeCards();
 cardListeners();
 restartGameOption();
 gameTimer()
-merfysSolution();
+// merfysSolution();
 
 function placeCards() {
 	const cardSymbolsList = document.querySelectorAll('.deck i');
@@ -278,7 +278,7 @@ function resetGame() {
 	keepScore();
 	initialStars();
 	gameTimer();
-	merfysSolution();
+	// merfysSolution();
 }
 
 function resetCards() {
