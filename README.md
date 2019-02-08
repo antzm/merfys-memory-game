@@ -62,7 +62,7 @@ Your score consists of 3 stars and depending on the number of your moves, the sc
 The score is calculated in the following way:
 
 Number of moves | Number of stars
-     :---:      |      :---:
+ -------------- | ---------------
  less than 18   | 3 stars
  less than 26   | 2 stars
  26 and above   | 1 star
