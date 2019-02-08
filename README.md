@@ -6,6 +6,10 @@ This is a memory game to test how good you are at remembering things.
 
 ## How to start
 
+You can play this game online: [Merfys Memory Game](https://antzm.github.io/merfys-memory-game/)
+
+or, if you prefer, you can download the game:
+
 1. Download the zip file named merfys-memory-game.zip
 
 2. Unzip the file and open the folder
