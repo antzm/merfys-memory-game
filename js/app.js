@@ -154,7 +154,7 @@ function disableListeners() {
 function cardAction(evt) {
 	if (evt.target.nodeName === 'LI' && evt.target.className === 'card') {
 		evt.target.classList.add('open', 'show');
-		keepScore();
+		// keepScore(); // original functionality that counted one move for every single card that was opened
 		cardSymbol = evt.target.innerHTML;
 		pureCardSymbol = cardSymbol.trim();
 		cardPair.push(pureCardSymbol);
@@ -166,6 +166,7 @@ function cardAction(evt) {
 
 function compareCards() {
 	disableListeners();
+	keepScore(); // this line was added due to project requirements, so to count one move when a pair of cards opens
 	if (cardPair[0] === cardPair[1]) {
 		setTimeout(cardsMatch, 250);
 	} else {
@@ -202,10 +203,10 @@ function keepScore() {
 	totalMoves += 1;
 	printMoves = document.querySelector('.moves');
 	printMoves.innerHTML = totalMoves;
-	if (totalMoves == 26) {
+	if (totalMoves == 18) {
 		removeStar();
 	};
-	if (totalMoves == 36) {
+	if (totalMoves == 26) {
 		removeStar();
 	};
 }
