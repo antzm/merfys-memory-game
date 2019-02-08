@@ -157,6 +157,7 @@ h1 {
 
     .deck {
         flex-basis: 264px;
+        min-height: 363px;
         margin: 2em;
     }
 
